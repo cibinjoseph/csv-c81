@@ -1,5 +1,5 @@
 # csv-c81
-This script allows quick conversion between csv and c81 formats. The files are identified on the basis of the file extension 
+This python script allows quick conversion between csv and c81 formats. The files are identified on the basis of the file extension 
 and converted to the alternate one.
 
 
@@ -27,7 +27,7 @@ The input CSV files have to fulfill 4 requirements:
 4. The file extension should either be .csv or .CSV
 
 Lines starting with a '#' are ignored and treated as comments.
-If any of the CD or CM tables are not provided, the corresponding values are set to zero by default in the generated C81 file.
+If any of the CD or CM tables are not present in the csv file, they are set to zero by default in the generated C81 file.
 
 ## Example usage
 ```bash
