@@ -29,8 +29,8 @@ The input CSV files have to fulfill 4 requirements:
 Lines starting with a '#' are ignored and treated as comments.
 
 ## Example usage
-```
-$ # Display sample1.csv file
+```bash
+# Display sample1.csv file
 $ cat sample1.csv
 0,0,0.5,1
 -180,0,0,0
@@ -41,11 +41,11 @@ $ cat sample1.csv
 45,-3,-3.1,-3.2
 180,0,0,0
 
-$ # Convert sample1.csv file to sample1.C81 file
+# Convert sample1.csv file to sample1.C81 file
 $ python3 csv-c81.py sample1.csv
 sample1.C81 created
 
-$ # Display sample1.C81 file
+# Display sample1.C81 file
 $ cat sample1.C81
 sample1                       030703070307
          0.000  0.500  1.000
