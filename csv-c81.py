@@ -1,11 +1,10 @@
 """ Code that converts between CSV and C81 """
 
 import c81utils as c81
-import matplotlib.pyplot as plt
 import numpy as np
-import sys
+from sys import argv
 
-args = sys.argv
+args = argv
 
 def usage():
     """ Prints usage details """
