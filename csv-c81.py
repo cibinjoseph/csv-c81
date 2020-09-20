@@ -16,9 +16,11 @@ def convert2c81(infile):
     with open(infile, 'r') as fh:
         line = fh.readline()
     if ',' in line:
-        data = np.loadtxt(infile, delimiter=',', dtype='float64')
+        data = np.genfromtxt(infile, delimiter=',', dtype='float64', \
+                             filling_values=0.0, comments='#')
     else:
-        data = np.loadtxt(infile, dtype='float64')
+        data = np.genfromtxt(infile, dtype='float64', \
+                             filling_values=0.0, comments='#')
 
     neg180s = np.where(data[:, 0] == -180)[0]
     pos180s = np.where(data[:, 0] ==  180)[0]
