@@ -42,11 +42,11 @@ def convert2c81(infile):
     elif len(pos180s) == 2:
         machL = data[neg180s[0]-1, 1:]
         alphaL = data[neg180s[0]:pos180s[0]+1, 0]
-        CL = data[neg180s[0]:pos180s[0]+1, neg180s[0]:]
+        CL = data[neg180s[0]:pos180s[0]+1, 1:]
 
         machD = data[neg180s[1]-1, 1:]
         alphaD = data[neg180s[1]:pos180s[1]+1, 0]
-        CD = data[neg180s[1]:pos180s[1]+1, neg180s[1]:]
+        CD = data[neg180s[1]:pos180s[1]+1, 1:]
 
         alphaM = alphaL
         machM = machL
@@ -55,15 +55,15 @@ def convert2c81(infile):
     elif len(pos180s) == 3:
         machL = data[neg180s[0]-1, 1:]
         alphaL = data[neg180s[0]:pos180s[0]+1, 0]
-        CL = data[neg180s[0]:pos180s[0]+1, neg180s[0]:]
+        CL = data[neg180s[0]:pos180s[0]+1, 1:]
 
         machD = data[neg180s[1]-1, 1:]
         alphaD = data[neg180s[1]:pos180s[1]+1, 0]
-        CD = data[neg180s[1]:pos180s[1]+1, neg180s[1]:]
+        CD = data[neg180s[1]:pos180s[1]+1, 1:]
 
         machM = data[neg180s[2]-1, 1:]
-        alphaM = data[neg180s[2]:pos180s[2]+1, 0]
-        CM = data[neg180s[2]:pos180s[2]+1, neg180s[2]:]
+        alphaM = data[neg180s[2]:, 0]
+        CM = data[neg180s[2]:pos180s[2]+1, 1:]
 
     af = c81.C81(infile[:-4], \
                 alphaL, machL, CL, \
