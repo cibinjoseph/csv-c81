@@ -27,6 +27,7 @@ The input CSV files have to fulfill 4 requirements:
 4. The file extension should either be .csv or .CSV
 
 Lines starting with a '#' are ignored and treated as comments.
+If any of the CD or CM tables are not provided, the corresponding values are set to zero by default in the generated C81 file.
 
 ## Example usage
 ```bash
