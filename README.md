@@ -9,7 +9,7 @@ and converted to the alternate one.
 $ sudo apt install python3-dev python3-pip
 
 # Clone this git repo
-$ git clone git@github.com:cibinjoseph/csv-c81.git
+$ git clone git@github.com:cibinjoseph/csv-c81.git && cd csv-c81
 
 # Install required packages
 $ pip3 install -r requirements.txt
