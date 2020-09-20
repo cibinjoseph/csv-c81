@@ -20,10 +20,11 @@ sample1.C81 created
 ```
 
 ## Usage
-The input CSV files have to fulfill 3 requirements:
+The input CSV files have to fulfill 4 requirements:
 1. No blank lines
 2. No words or alphabets
-3. The file extension should either be .csv or .CSV
+3. Alpha should vary from -180 to 180
+4. The file extension should either be .csv or .CSV
 
 Lines starting with a '#' are ignored and treated as comments.
 
