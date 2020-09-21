@@ -10,6 +10,7 @@ args = argv
 def usage():
     """ Prints usage details """
     print('Usage: python3 csv-c81.py inputfile')
+    print(' Add -p flag for plotting C81 file')
 
 def convert2c81(infile):
     """ Converts CSV file to C81 """

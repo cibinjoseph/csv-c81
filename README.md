@@ -1,6 +1,6 @@
 # csv-c81
 This python script allows quick conversion between csv and c81 formats. The files are identified on the basis of the file extension 
-and converted to the alternate one.
+and converted to the alternate one. It also has a quick plot functionality that allows quick inspection of C81 files when the `-p` flag is passed.
 
 
 ## Installation
