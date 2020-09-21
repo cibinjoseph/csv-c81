@@ -3,6 +3,7 @@
 import c81utils as c81
 import numpy as np
 from sys import argv
+import matplotlib.pyplot as plt
 
 args = argv
 
@@ -102,6 +103,37 @@ def convert2csv(infile):
     np.savetxt(outfile, outArray, fmt='%9.4f', delimiter=',')
     print(outfile + ' created')
 
+def plotC81(infile):
+    """ Plot airfoil tables from C81 file """
+    with open(infile, 'r') as fh:
+        af = c81.load(fh)
+
+    fig, ax = plt.subplots(1, 3)
+    for i in range(len(af.CL.mach)):
+        ax[0].plot(af.CL.alpha, af.CL.val[:, i], \
+                  label='M ' + str(af.CL.mach[i]))
+    for i in range(len(af.CD.mach)):
+        ax[1].plot(af.CD.alpha, af.CD.val[:, i], \
+                  label='M ' + str(af.CD.mach[i]))
+    for i in range(len(af.CM.mach)):
+        ax[2].plot(af.CM.alpha, af.CM.val[:, i], \
+                  label='M ' + str(af.CM.mach[i]))
+
+    ax[0].set_xlabel('alpha')
+    ax[0].set_title('CL')
+    ax[0].legend()
+
+    ax[1].set_xlabel('alpha')
+    ax[1].set_title('CD')
+    ax[1].legend()
+
+    ax[2].set_xlabel('alpha')
+    ax[2].set_title('CM')
+    ax[2].legend()
+
+    plt.tight_layout()
+    plt.show()
+
 
 def main():
     # Read input arguments as filenames
@@ -111,12 +143,24 @@ def main():
     else:
         filenames = args[1:]
 
-    # For each filename convert as necessary
-    for infile in filenames:
-        if infile[-4:].upper() == '.C81':
-            convert2csv(infile)
-        if infile[-4:].upper() == '.CSV':
-            convert2c81(infile)
+    # Check if plotting is requested for single file
+    if filenames[0] == '-p' and len(filenames) == 2:
+        infile = filenames[1]
+        if infile[-4:].upper() != '.C81':
+            raise TypeError('Only .C81 files can be plotted. \
+                            Convert and try again.')
+        else:
+            # Plot the contents of the file
+            plotC81(infile)
+
+    else:
+        # For each filename convert as necessary
+        for infile in filenames:
+            if infile != '-p':
+                if infile[-4:].upper() == '.C81':
+                    convert2csv(infile)
+                if infile[-4:].upper() == '.CSV':
+                    convert2c81(infile)
 
 
 if __name__ == "__main__":
