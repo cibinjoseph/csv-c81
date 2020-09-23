@@ -109,28 +109,31 @@ def plotC81(infile):
     with open(infile, 'r') as fh:
         af = c81.load(fh)
 
-    fig, ax = plt.subplots(1, 3)
+    fig1, ax1 = plt.subplots(1)
+    fig2, ax2 = plt.subplots(1)
+    fig3, ax3 = plt.subplots(1)
+
     for i in range(len(af.CL.mach)):
-        ax[0].plot(af.CL.alpha, af.CL.val[:, i], \
+        ax1.plot(af.CL.alpha, af.CL.val[:, i], \
                   label='M ' + str(af.CL.mach[i]))
     for i in range(len(af.CD.mach)):
-        ax[1].plot(af.CD.alpha, af.CD.val[:, i], \
+        ax2.plot(af.CD.alpha, af.CD.val[:, i], \
                   label='M ' + str(af.CD.mach[i]))
     for i in range(len(af.CM.mach)):
-        ax[2].plot(af.CM.alpha, af.CM.val[:, i], \
+        ax3.plot(af.CM.alpha, af.CM.val[:, i], \
                   label='M ' + str(af.CM.mach[i]))
 
-    ax[0].set_xlabel('alpha')
-    ax[0].set_title('CL')
-    ax[0].legend()
+    ax1.set_xlabel('alpha')
+    ax1.set_title('CL')
+    ax1.legend()
 
-    ax[1].set_xlabel('alpha')
-    ax[1].set_title('CD')
-    ax[1].legend()
+    ax2.set_xlabel('alpha')
+    ax2.set_title('CD')
+    ax2.legend()
 
-    ax[2].set_xlabel('alpha')
-    ax[2].set_title('CM')
-    ax[2].legend()
+    ax3.set_xlabel('alpha')
+    ax3.set_title('CM')
+    ax3.legend()
 
     plt.tight_layout()
     plt.show()
