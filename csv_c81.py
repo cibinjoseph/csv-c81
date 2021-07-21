@@ -4,6 +4,7 @@ import c81utils as c81
 import numpy as np
 from sys import argv
 import matplotlib.pyplot as plt
+from io import StringIO
 
 args = argv
 
@@ -12,62 +13,73 @@ def usage():
     print('Usage: python3 csv-c81.py inputfile')
     print(' Add -p flag for plotting C81 file')
 
-def convert2c81(infile):
-    """ Converts CSV file to C81 """
-    # Check delimiter
+def getTables(infile):
+    """ Extracts tables in file separately"""
     with open(infile, 'r') as fh:
-        line = fh.readline()
-    if ',' in line:
-        data = np.genfromtxt(infile, delimiter=',', dtype='float64', \
-                             filling_values=0.0, comments='#')
+        lines = fh.readlines()
+
+    idx = []
+    for i, line in enumerate(lines):
+        if len(line.split()) == 0:
+            idx.append(i)
+
+    if len(idx) == 0:
+        # Only 1 table
+        tbl_CL = lines
+        tbl_CD = None
+        tbl_CM = None
+    elif len(idx) == 1:
+        # 2 tables
+        tbl_CL = lines[0 : idx[0]]
+        tbl_CD = lines[idx[0]+1 : ]
+        tbl_CM = None
     else:
-        data = np.genfromtxt(infile, dtype='float64', \
-                             filling_values=0.0, comments='#')
+        # 3 tables or more
+        tbl_CL = lines[0 : idx[0]]
+        tbl_CD = lines[idx[0]+1 : idx[1]]
+        tbl_CM = lines[idx[1]+1 : ]
 
-    neg180s = np.where(data[:, 0] == -180)[0]
-    pos180s = np.where(data[:, 0] ==  180)[0]
+    return tbl_CL, tbl_CD, tbl_CM
 
-    if len(neg180s) != len(pos180s):
-        raise ValueError('No. of -180s and 180s do not match')
+def convert2c81(infile):
+    """ Converts 3 CSV tables to C81 data """
+    tbl_CL, tbl_CD, tbl_CM = getTables(infile)
 
-    if len(pos180s) == 1:
-        machL = data[0, 1:]
-        alphaL = data[1:, 0]
-        CL = data[1:, 1:]
+    # Check whether delimiter is comma or space
+    delim = ' '
+    for line in tbl_CL:
+        if ',' in line:
+            delim = ','
+            break
 
-        alphaD = alphaL
-        machD = machL
-        CD = CL*0.0
+    arr_CL = np.loadtxt(tbl_CL, delimiter=delim, dtype='float64', comments='#')
+    if tbl_CD:
+        arr_CD = np.loadtxt(tbl_CD, delimiter=delim, \
+                            dtype='float64', comments='#')
+    else:
+        arr_CD = 0*arr_CL
 
-        alphaM = alphaL
-        machM = machL
-        CM = CL*0.0
+    if tbl_CM:
+        arr_CM = np.loadtxt(tbl_CM, delimiter=delim, \
+                            dtype='float64', comments='#')
+    else:
+        arr_CM = 0*arr_CL
 
-    elif len(pos180s) == 2:
-        machL = data[neg180s[0]-1, 1:]
-        alphaL = data[neg180s[0]:pos180s[0]+1, 0]
-        CL = data[neg180s[0]:pos180s[0]+1, 1:]
 
-        machD = data[neg180s[1]-1, 1:]
-        alphaD = data[neg180s[1]:pos180s[1]+1, 0]
-        CD = data[neg180s[1]:pos180s[1]+1, 1:]
+    # CL
+    machL = arr_CL[0, 1:]
+    alphaL = arr_CL[1:, 0]
+    CL = arr_CL[1:, 1:]
 
-        alphaM = alphaL
-        machM = machL
-        CM = CL*0.0
+    # CD
+    machD = arr_CD[0, 1:]
+    alphaD = arr_CD[1:, 0]
+    CD = arr_CD[1:, 1:]
 
-    elif len(pos180s) == 3:
-        machL = data[neg180s[0]-1, 1:]
-        alphaL = data[neg180s[0]:pos180s[0]+1, 0]
-        CL = data[neg180s[0]:pos180s[0]+1, 1:]
-
-        machD = data[neg180s[1]-1, 1:]
-        alphaD = data[neg180s[1]:pos180s[1]+1, 0]
-        CD = data[neg180s[1]:pos180s[1]+1, 1:]
-
-        machM = data[neg180s[2]-1, 1:]
-        alphaM = data[neg180s[2]:, 0]
-        CM = data[neg180s[2]:pos180s[2]+1, 1:]
+    # CM
+    machM = arr_CM[0, 1:]
+    alphaM = arr_CM[1:, 0]
+    CM = arr_CM[1:, 1:]
 
     af = c81.C81(infile[:-4], \
                 alphaL, machL, CL, \
