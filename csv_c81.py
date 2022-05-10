@@ -53,11 +53,12 @@ def convert2c81(infile):
             break
 
     tbl_CL = ''.join(tbl_CL)
-    arr_CL = np.loadtxt(StringIO(tbl_CL), delimiter=delim, dtype='float64', comments='#')
+    arr_CL = np.loadtxt(StringIO(tbl_CL), delimiter=delim, \
+                        dtype='float64', comments='#')
 
     if tbl_CD:
         tbl_CD = ''.join(tbl_CD)
-        arr_CD = np.loadtxt(tbl_CD, delimiter=delim, \
+        arr_CD = np.loadtxt(StringIO(tbl_CD), delimiter=delim, \
                             dtype='float64', comments='#')
     else:
         arr_CD = 0*arr_CL
@@ -66,7 +67,7 @@ def convert2c81(infile):
 
     if tbl_CM:
         tbl_CM = ''.join(tbl_CM)
-        arr_CM = np.loadtxt(tbl_CM, delimiter=delim, \
+        arr_CM = np.loadtxt(StringIO(tbl_CM), delimiter=delim, \
                             dtype='float64', comments='#')
     else:
         arr_CM = 0*arr_CL
