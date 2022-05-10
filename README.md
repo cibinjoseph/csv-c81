@@ -20,11 +20,10 @@ sample1.C81 created
 ```
 
 ## Usage
-The input CSV files have to fulfill 4 requirements:
-1. No blank lines
+The input CSV files have to fulfill the following requirements:
+1. CL, CD, CM seperated by blank lines
 2. No words or alphabets
-3. Alpha should vary from -180 to 180
-4. The file extension should either be .csv or .CSV
+3. The file extension should either be .csv or .c81
 
 Lines starting with a '#' are ignored and treated as comments.
 If any of the CD or CM tables are not present in the csv file, they are set to zero by default in the generated C81 file.
