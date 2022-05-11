@@ -12,6 +12,7 @@ def usage():
     """ Prints usage details """
     print('Usage: python3 csv-c81.py inputfile')
     print(' Add -p flag for plotting C81 file')
+    print(' CL, CD, CM tables should be seperated by a blank line in csv files.')
 
 def getTables(infile):
     """ Extracts tables in file separately"""
@@ -172,8 +173,7 @@ def main():
     if filenames[0] == '-p' and len(filenames) == 2:
         infile = filenames[1]
         if infile[-4:].upper() != '.C81':
-            raise TypeError('Only .C81 files can be plotted. \
-                            Convert and try again.')
+            raise TypeError('Only .C81 files can be plotted. Convert and try again.')
         else:
             # Plot the contents of the file
             plotC81(infile)
@@ -186,6 +186,8 @@ def main():
                     convert2csv(infile)
                 if infile[-4:].upper() == '.CSV':
                     convert2c81(infile)
+                else:
+                    raise ValueError('Ensure filename extension is .csv or .C81')
 
 
 if __name__ == "__main__":
